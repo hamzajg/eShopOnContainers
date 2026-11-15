@@ -32,11 +32,11 @@ namespace Microsoft.eShopOnContainers.Services.Ordering.API.Infrastructure.Autof
                 .AsImplementedInterfaces();
 
 
-            builder.Register<ServiceFactory>(context =>
-            {
-                var componentContext = context.Resolve<IComponentContext>();
-                return t => { object o; return componentContext.TryResolve(t, out o) ? o : null; };
-            });
+            builder.RegisterType<Mediator>()
+                .As<ISender>()
+                .As<IPublisher>()
+                .As<IMediator>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(ValidatorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
