@@ -1,6 +1,6 @@
-﻿using IdentityServer4.Models;
-using IdentityServer4.Services;
-using IdentityServer4.Stores;
+﻿using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Services;
+using Duende.IdentityServer.Stores;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.eShopOnContainers.Services.Identity.API.Models.AccountViewModels;
 using Microsoft.Extensions.Logging;
@@ -64,7 +64,8 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Controllers
             // user clicked 'no' - send back the standard 'access_denied' response
             if (model.Button == "no")
             {
-                response = ConsentResponse.Denied;
+                await _interaction.DenyAuthorizationAsync(request, AuthorizationError.AccessDenied, "User denied consent");
+                return Redirect(model.ReturnUrl);
             }
             // user clicked 'yes' - validate the data
             else if (model.Button == "yes" && model != null)
@@ -75,7 +76,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Controllers
                     response = new ConsentResponse
                     {
                         RememberConsent = model.RememberConsent,
-                        ScopesConsented = model.ScopesConsented
+                        ScopesValuesConsented = model.ScopesConsented
                     };
                 }
                 else
@@ -111,22 +112,22 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Controllers
             var request = await _interaction.GetAuthorizationContextAsync(returnUrl);
             if (request != null)
             {
-                var client = await _clientStore.FindEnabledClientByIdAsync(request.ClientId);
+                var client = await _clientStore.FindEnabledClientByIdAsync(request.Client?.ClientId);
                 if (client != null)
                 {
-                    var resources = await _resourceStore.FindEnabledResourcesByScopeAsync(request.ScopesRequested);
+                    var resources = await _resourceStore.FindEnabledResourcesByScopeAsync(request.ValidatedResources?.RawScopeValues);
                     if (resources != null && (resources.IdentityResources.Any() || resources.ApiResources.Any()))
                     {
                         return new ConsentViewModel(model, returnUrl, request, client, resources);
                     }
                     else
                     {
-                        _logger.LogError("No scopes matching: {0}", request.ScopesRequested.Aggregate((x, y) => x + ", " + y));
+                        _logger.LogError("No scopes matching: {0}", request.ValidatedResources?.RawScopeValues.Aggregate((x, y) => x + ", " + y));
                     }
                 }
                 else
                 {
-                    _logger.LogError("Invalid client id: {0}", request.ClientId);
+                    _logger.LogError("Invalid client id: {0}", request.Client?.ClientId);
                 }
             }
             else

@@ -1,4 +1,4 @@
-﻿using IdentityServer4.EntityFramework.DbContexts;
+﻿using Duende.IdentityServer.EntityFramework.DbContexts;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.eShopOnContainers.Services.Identity.API;

@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Microsoft.eShopOnContainers.Services.Basket.API
 {
@@ -66,7 +67,6 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
 
             services.AddSwaggerGen(options =>
             {
-                options.DescribeAllEnumsAsStrings();
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "eShopOnContainers - Basket HTTP API",

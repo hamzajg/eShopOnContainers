@@ -31,6 +31,7 @@ using System;
 using System.Data.Common;
 using System.IO;
 using System.Reflection;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Microsoft.eShopOnContainers.Services.Catalog.API
 {
@@ -256,7 +257,6 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API
         {
             services.AddSwaggerGen(options =>
             {
-                options.DescribeAllEnumsAsStrings();
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "eShopOnContainers - Catalog HTTP API",

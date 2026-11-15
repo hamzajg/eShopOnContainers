@@ -28,6 +28,7 @@ using System.Threading;
 using Webhooks.API.Infrastructure;
 using Webhooks.API.IntegrationEvents;
 using Webhooks.API.Services;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Webhooks.API
 {
@@ -175,7 +176,6 @@ namespace Webhooks.API
         {
             services.AddSwaggerGen(options =>
             {
-                options.DescribeAllEnumsAsStrings();
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "eShopOnContainers - Webhooks HTTP API",

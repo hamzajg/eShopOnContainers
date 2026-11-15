@@ -22,6 +22,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
 {
@@ -134,7 +135,6 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
 
             services.AddSwaggerGen(options =>
             {
-                options.DescribeAllEnumsAsStrings();
 
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {

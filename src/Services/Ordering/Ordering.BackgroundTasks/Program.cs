@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Ordering.BackgroundTasks
 {
-    public class Program
+    public partial class Program
     {
         public static readonly string AppName = typeof(Program).Assembly.GetName().Name;
 

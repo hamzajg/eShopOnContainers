@@ -36,6 +36,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
 using Microsoft.eShopOnContainers.Services.Ordering.Infrastructure;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Microsoft.eShopOnContainers.Services.Ordering.API
 {
@@ -254,7 +255,6 @@ namespace Microsoft.eShopOnContainers.Services.Ordering.API
         {
             services.AddSwaggerGen(options =>
             {
-                options.DescribeAllEnumsAsStrings();
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "eShopOnContainers - Ordering HTTP API",

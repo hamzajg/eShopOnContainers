@@ -8,6 +8,7 @@ using Microsoft.eShopOnContainers.Services.Ordering.Domain.Seedwork;
 using Ordering.Infrastructure;
 using Ordering.Infrastructure.EntityConfigurations;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -150,6 +151,27 @@ namespace Microsoft.eShopOnContainers.Services.Ordering.Infrastructure
             public Task<object> Send(object request, CancellationToken cancellationToken = default)
             {
                 return Task.FromResult(default(object));
+            }
+
+            public Task Send<TRequest>(TRequest request, CancellationToken cancellationToken = default) where TRequest : IRequest
+            {
+                return Task.CompletedTask;
+            }
+
+            public IAsyncEnumerable<TResponse> CreateStream<TResponse>(IStreamRequest<TResponse> request, CancellationToken cancellationToken = default)
+            {
+                return Empty<TResponse>();
+            }
+
+            public IAsyncEnumerable<object> CreateStream(object request, CancellationToken cancellationToken = default)
+            {
+                return Empty<object>();
+            }
+
+            static async IAsyncEnumerable<T> Empty<T>()
+            {
+                await Task.CompletedTask;
+                yield break;
             }
         }
     }
